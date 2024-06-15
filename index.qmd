@@ -147,7 +147,7 @@ cor_summary <- function(cor_matrix) {
 cor_summary <- cor_summary(cor_matrix)
 ```
 
-## Teacher Education Standards  
+## Teacher Educator Standards  
 
 ```{r, eval=FALSE, echo=FALSE}
 selected_data <- data %>% select(id:program, standard1_1:standard6_5)
@@ -219,7 +219,7 @@ S5 <- likert(selected_df[,c(19:24)])
 S6 <- likert(selected_df[,c(25:29)])
 ```
 
-#### Teacher Education Standard 1 
+#### Teacher Educator Standard 1 
 
 ```{r}
 plot(S1, legend.position="right") + theme_minimal(base_size = 14) +
@@ -236,7 +236,7 @@ plot(S1, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard1.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 2 
+#### Teacher Educator Standard 2 
 
 ```{r}
 plot(S2, legend.position="right") + theme_minimal(base_size = 14) +
@@ -253,7 +253,7 @@ plot(S2, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard2.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 3 
+#### Teacher Educator Standard 3 
 
 ```{r}
 plot(S3, legend.position="right") + theme_minimal(base_size = 14) +
@@ -271,7 +271,7 @@ ggsave("results/standard3.png", height = 3, width = 7)
 ```
 
 
-#### Teacher Education Standard 4 
+#### Teacher Educator Standard 4 
 
 ```{r}
 plot(S4, legend.position="right") + theme_minimal(base_size = 14) +
@@ -288,7 +288,7 @@ plot(S4, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard4.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 5
+#### Teacher Educator Standard 5
 
 ```{r}
 plot(S5, legend.position="right") + theme_minimal(base_size = 14) +
@@ -305,7 +305,7 @@ plot(S5, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard5.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 6
+#### Teacher Educator Standard 6
 
 ```{r}
 plot(S6, legend.position="right") + theme_minimal(base_size = 14) +
