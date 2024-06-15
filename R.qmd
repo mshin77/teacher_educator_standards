@@ -6,23 +6,23 @@ format:
     code-tools: true
 ---
 
+```{=html}
 <style>
   .responsive-figure {
     width: 100% !important;
     height: auto;
   }
 </style>
-
+```
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 ::: panel-tabset
 
-## Load Models
+## Participants
 
-```{r}
-#| code-fold: false
+```{r, echo=FALSE}
 suppressPackageStartupMessages({
   library(readxl)
   library(officer)
@@ -37,26 +37,17 @@ suppressPackageStartupMessages({
   library(corrplot)
 })
 
-data <- read_excel("data/data.xlsx")
+load("data/teacher_education_standards.RData")
 ```
 
-## Participants
-
-```{r}
-#| code-fold: false
+```{r, echo=FALSE, eval=FALSE}
 demo_tbl <- data %>%
   dplyr::select(teaching_years, gender, age, program) %>%
   tbl_summary(
               percent = "column") 
   
 demo_tbl_ft <- as_flex_table(demo_tbl)
-
-docx <- read_docx()
-docx <- body_add_flextable(docx, demo_tbl_ft)
-
-print(docx, target = "results/demo_tbl.docx")
 ```
-
 
 ```{r}
 demo_tbl_ft 
@@ -64,9 +55,9 @@ demo_tbl_ft
 
 ## Internal Consistency
 
-#### Calculate Cronbach's alpha 
+#### Calculate Cronbach's alpha
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 #| code-fold: false
 calculate_alpha <- function(data, prefix) {
   category_cols <- grep(paste0("^", prefix), colnames(data), value = TRUE)
@@ -82,41 +73,52 @@ alpha_standard4 <- calculate_alpha(data, "standard4")
 alpha_standard5 <- calculate_alpha(data, "standard5")
 alpha_standard6 <- calculate_alpha(data, "standard6")
 ```
-#### Spearman's Correlation
 
-```{r, fig.width=10, fig.height=10, out.extra='class="responsive-figure"'}
-cor_data <- data %>% select(standard1_1:standard6_5) 
+#### standard 1
 
-cor_matrix <- cor(cor_data, method = "spearman", use = "complete.obs")
-
-corrplot(cor_matrix, method = "color", type = "upper", 
-         tl.col = "black", tl.srt = 45, 
-         tl.cex = 1,
-         addCoef.col = "black", number.cex = 0.85, 
-         diag = FALSE)
+```{r, echo=FALSE}
+summary(alpha_standard1)
 ```
 
-```{r}
-cor_summary <- function(cor_matrix) {
-  cor_values <- cor_matrix[upper.tri(cor_matrix)]
-  
-  summary <- list(
-    mean = round(mean(cor_values), 2),
-    median = round(median(cor_values), 2),
-    sd = round(sd(cor_values), 2),
-    min = round(min(cor_values), 2),
-    max = round(max(cor_values), 2)
-  )
-  return(summary)
-}
+#### standard 2
 
-cor_summary <- cor_summary(cor_matrix)
-cor_summary
+```{r, echo=FALSE}
+summary(alpha_standard2)
 ```
 
-## Teacher Education Standards  
+#### standard 3
 
-```{r}
+```{r, echo=FALSE}
+summary(alpha_standard3)
+```
+
+#### standard 4
+
+```{r, echo=FALSE}
+summary(alpha_standard4)
+```
+
+#### standard 5
+
+```{r, echo=FALSE}
+summary(alpha_standard5)
+```
+
+#### standard 6
+
+```{r, echo=FALSE}
+summary(alpha_standard6)
+```
+
+## Semantic Similarity
+
+[Python code](python.html)
+
+<iframe src="plot.html" width="100%" height="600px" style="border:none;"></iframe>
+
+## Standards
+
+```{r, eval=FALSE, echo=FALSE}
 selected_data <- data %>% select(id:program, standard1_1:standard6_5)
 
 init_long_data <- melt(selected_data, id.vars = c('id', 'teaching_years', 'gender', 'age', 'program'), variable.name = 'standard', value.name = 'response')
@@ -177,13 +179,18 @@ selected_df <- selected_df %>% rename(
   "Standard 6-4" = standard6_4,
   "Standard 6-5" = standard6_5
 )
+
+S1 <- likert(selected_df[,c(1:5)]) 
+S2 <- likert(selected_df[,c(6:10)])
+S3 <- likert(selected_df[,c(11:15)])
+S4 <- likert(selected_df[,c(16:18)])
+S5 <- likert(selected_df[,c(19:24)])
+S6 <- likert(selected_df[,c(25:29)])
 ```
 
-#### Teacher Education Standard 1 
+#### Teacher Educator Standard 1
 
 ```{r}
-S1 <- likert(selected_df[,c(1:5)]) 
-
 plot(S1, legend.position="right") + theme_minimal(base_size = 14) +
     theme(
     axis.text.x = element_text(size = 10),         
@@ -198,11 +205,9 @@ plot(S1, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard1.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 2 
+#### Teacher Educator Standard 2
 
 ```{r}
-S2 <- likert(selected_df[,c(6:10)])
-
 plot(S2, legend.position="right") + theme_minimal(base_size = 14) +
     theme(
     axis.text.x = element_text(size = 10),         
@@ -217,11 +222,9 @@ plot(S2, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard2.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 3 
+#### Teacher Educator Standard 3
 
 ```{r}
-S3 <- likert(selected_df[,c(11:15)])
-
 plot(S3, legend.position="right") + theme_minimal(base_size = 14) +
     theme(
     axis.text.x = element_text(size = 10),         
@@ -236,12 +239,9 @@ plot(S3, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard3.png", height = 3, width = 7)
 ```
 
-
-#### Teacher Education Standard 4 
+#### Teacher Educator Standard 4
 
 ```{r}
-S4 <- likert(selected_df[,c(16:18)])
-
 plot(S4, legend.position="right") + theme_minimal(base_size = 14) +
     theme(
     axis.text.x = element_text(size = 10),         
@@ -256,11 +256,9 @@ plot(S4, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard4.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 5
+#### Teacher Educator Standard 5
 
 ```{r}
-S5 <- likert(selected_df[,c(19:24)])
-
 plot(S5, legend.position="right") + theme_minimal(base_size = 14) +
     theme(
     axis.text.x = element_text(size = 10),         
@@ -275,13 +273,11 @@ plot(S5, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard5.png", height = 3, width = 7)
 ```
 
-#### Teacher Education Standard 6
+#### Teacher Educator Standard 6
 
 ```{r}
-S6 <- likert(selected_df[,c(25:29)])
-
 plot(S6, legend.position="right") + theme_minimal(base_size = 14) +
-    theme(
+  theme(
     axis.text.x = element_text(size = 10),         
     axis.text.y = element_text(size = 10),         
     axis.title.x = element_text(size = 10),        
@@ -294,4 +290,38 @@ plot(S6, legend.position="right") + theme_minimal(base_size = 14) +
 ggsave("results/standard6.png", height = 3, width = 7)
 ```
 
+## Correlation
+
+#### Spearman's Correlation
+
+```{r, eval=FALSE, echo=FALSE}
+cor_data <- data %>% select(standard1_1:standard6_5) 
+
+cor_matrix <- cor(cor_data, method = "spearman", use = "complete.obs")
+```
+
+```{r, fig.width=9, fig.height=9, out.extra='class="responsive-figure"'}
+corrplot(cor_matrix, method = "color", type = "upper", 
+         tl.col = "black", tl.srt = 45, 
+         tl.cex = 1,
+         addCoef.col = "black", number.cex = 0.75, 
+         diag = FALSE)
+```
+
+```{r}
+cor_summary <- function(cor_matrix) {
+  cor_values <- cor_matrix[upper.tri(cor_matrix)]
+  
+  summary <- list(
+    mean = round(mean(cor_values), 2),
+    median = round(median(cor_values), 2),
+    sd = round(sd(cor_values), 2),
+    min = round(min(cor_values), 2),
+    max = round(max(cor_values), 2)
+  )
+  return(summary)
+}
+
+cor_summary <- cor_summary(cor_matrix)
+```
 :::
