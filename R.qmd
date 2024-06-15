@@ -14,6 +14,7 @@ format:
   }
 </style>
 ```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
@@ -113,6 +114,8 @@ summary(alpha_standard6)
 ## Semantic Similarity
 
 [Python code](python.html)
+
+#### Network Graph
 
 <iframe src="plot.html" width="100%" height="600px" style="border:none;"></iframe>
 
