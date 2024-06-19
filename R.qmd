@@ -109,23 +109,13 @@ summary(alpha_standard5)
 summary(alpha_standard6)
 ```
 
-## Heatmap
+## Semantic Similarity
 
-#### Heatmap of Semantic Similarity between teacher educator stsandards
+#### Heatmap of Semantic Similarity Between Teacher Educator Stsandards
 
 [Python code](python.html)
 
 ![](heatmap.png)
-
-## Network Graph
-
-#### Network Graph of Semantic Similarity between teacher educator stsandards
-
-[Python code](python.html)
-
-<iframe src="plot.html" width="100%" height="600px" style="border:none;">
-
-</iframe>
 
 ## Standards
 
