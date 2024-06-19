@@ -14,13 +14,11 @@ format:
   }
 </style>
 ```
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 ::: panel-tabset
-
 ## Participants
 
 ```{r, echo=FALSE}
@@ -111,13 +109,23 @@ summary(alpha_standard5)
 summary(alpha_standard6)
 ```
 
-## Semantic Similarity
+## Heatmap
+
+#### Heatmap of Semantic Similarity between teacher educator stsandards
 
 [Python code](python.html)
 
-#### Network Graph
+![](heatmap.png)
 
-<iframe src="plot.html" width="100%" height="600px" style="border:none;"></iframe>
+## Network Graph
+
+#### Network Graph of Semantic Similarity between teacher educator stsandards
+
+[Python code](python.html)
+
+<iframe src="plot.html" width="100%" height="600px" style="border:none;">
+
+</iframe>
 
 ## Standards
 
@@ -291,40 +299,5 @@ plot(S6, legend.position="right") + theme_minimal(base_size = 14) +
   scale_fill_brewer(palette = "YlGnBu", breaks = c("Beginning", "Developing", "Implementing", "Maintaining", "Transforming"))
 
 ggsave("results/standard6.png", height = 3, width = 7)
-```
-
-## Correlation
-
-#### Spearman's Correlation
-
-```{r, eval=FALSE, echo=FALSE}
-cor_data <- data %>% select(standard1_1:standard6_5) 
-
-cor_matrix <- cor(cor_data, method = "spearman", use = "complete.obs")
-```
-
-```{r, fig.width=9, fig.height=9, out.extra='class="responsive-figure"'}
-corrplot(cor_matrix, method = "color", type = "upper", 
-         tl.col = "black", tl.srt = 45, 
-         tl.cex = 1,
-         addCoef.col = "black", number.cex = 0.75, 
-         diag = FALSE)
-```
-
-```{r}
-cor_summary <- function(cor_matrix) {
-  cor_values <- cor_matrix[upper.tri(cor_matrix)]
-  
-  summary <- list(
-    mean = round(mean(cor_values), 2),
-    median = round(median(cor_values), 2),
-    sd = round(sd(cor_values), 2),
-    min = round(min(cor_values), 2),
-    max = round(max(cor_values), 2)
-  )
-  return(summary)
-}
-
-cor_summary <- cor_summary(cor_matrix)
 ```
 :::

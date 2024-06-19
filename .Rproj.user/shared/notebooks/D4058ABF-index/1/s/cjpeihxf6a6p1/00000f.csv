@@ -1,5 +1,0 @@
-"0","selected_data <- data %>% select(id:program, standard1_1:standard6_5)"
-"0",""
-"0","init_long_data <- melt(selected_data, id.vars = c('id', 'teaching_years', 'gender', 'age', 'program'), variable.name = 'standard', value.name = 'response')"
-"0",""
-"0","openxlsx::write.xlsx(init_long_data, ""data/init_long_data.xlsx"", asTable = TRUE)"
