@@ -1,0 +1,279 @@
+---
+title: ''
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+```{=html}
+<style>
+  .responsive-figure {
+    width: 100% !important;
+    height: auto;
+  }
+</style>
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+::: panel-tabset
+## Participants
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages({
+  library(readxl)
+  library(officer)
+  library(likert)
+  library(gtsummary)
+  library(flextable)
+  library(ggplot2)
+  library(tidyr)
+  library(dplyr)
+  library(reshape2)
+  library(psych)
+  library(corrplot)
+})
+
+load("data/teacher_education_standards.RData")
+```
+
+```{r, echo=FALSE, eval=FALSE}
+demo_tbl <- data %>%
+  dplyr::select(teaching_years, gender, age, program) %>%
+  tbl_summary(
+              percent = "column") 
+  
+demo_tbl_ft <- as_flex_table(demo_tbl)
+```
+
+```{r}
+demo_tbl_ft 
+```
+
+## Internal Consistency
+
+#### Calculate Cronbach's alpha
+
+```{r, eval=FALSE, echo=FALSE}
+#| code-fold: false
+calculate_alpha <- function(data, prefix) {
+  category_cols <- grep(paste0("^", prefix), colnames(data), value = TRUE)
+  alpha_result <- alpha(data[, category_cols])
+  cat(paste("Cronbach's alpha for", prefix, ":", format(alpha_result$total$raw_alpha, digits = 2, nsmall = 2)), "\n")
+  return(alpha_result)
+}
+
+alpha_standard1 <- calculate_alpha(data, "standard1")
+alpha_standard2 <- calculate_alpha(data, "standard2")
+alpha_standard3 <- calculate_alpha(data, "standard3")
+alpha_standard4 <- calculate_alpha(data, "standard4")
+alpha_standard5 <- calculate_alpha(data, "standard5")
+alpha_standard6 <- calculate_alpha(data, "standard6")
+```
+
+#### standard 1
+
+```{r, echo=FALSE}
+summary(alpha_standard1)
+```
+
+#### standard 2
+
+```{r, echo=FALSE}
+summary(alpha_standard2)
+```
+
+#### standard 3
+
+```{r, echo=FALSE}
+summary(alpha_standard3)
+```
+
+#### standard 4
+
+```{r, echo=FALSE}
+summary(alpha_standard4)
+```
+
+#### standard 5
+
+```{r, echo=FALSE}
+summary(alpha_standard5)
+```
+
+#### standard 6
+
+```{r, echo=FALSE}
+summary(alpha_standard6)
+```
+
+## Semantic Similarity
+
+#### Heatmap of Semantic Similarity Between Teacher Educator Standards
+
+[Python code](python.html)
+
+![](heatmap.png)
+
+## Standards
+
+```{r, echo=FALSE, eval=FALSE}
+selected_data <- data %>% select(id:program, standard1_1:standard6_5)
+
+init_long_data <- melt(selected_data, id.vars = c('id', 'teaching_years', 'gender', 'age', 'program'), variable.name = 'standard', value.name = 'response')
+
+openxlsx::write.xlsx(init_long_data, "data/init_long_data.xlsx", asTable = TRUE)
+
+init_long_data <- read_excel("data/long_data.xlsx")
+
+long_data <- init_long_data %>% mutate(response = case_when(
+  response == "1" ~ "Beginning",
+  response == "2" ~ "Developing",
+  response == "3" ~ "Implementing",
+  response == "4" ~ "Maintaining",
+  response == "5" ~ "Transforming"
+)) 
+
+
+long_data$response <- factor(long_data$response, levels = c("Beginning", "Developing", "Implementing", "Maintaining", "Transforming"), ordered = TRUE)
+
+long_data$standard <- dplyr::case_when(
+  long_data$standard == "standard1_1" ~ "Standard 1-1",
+  long_data$standard == "standard1_2" ~ "Standard 1-2",
+  long_data$standard == "standard1_3" ~ "Standard 1-3",
+  long_data$standard == "standard1_4" ~ "Standard 1-4",
+  long_data$standard == "standard1_5" ~ "Standard 1-5",
+  long_data$standard == "standard2_1" ~ "Standard 2-1",
+  long_data$standard == "standard2_2" ~ "Standard 2-2",
+  long_data$standard == "standard2_3" ~ "Standard 2-3",
+  long_data$standard == "standard2_4" ~ "Standard 2-4",
+  long_data$standard == "standard2_5" ~ "Standard 2-5",
+  long_data$standard == "standard3_1" ~ "Standard 3-1",
+  long_data$standard == "standard3_2" ~ "Standard 3-2",
+  long_data$standard == "standard3_3" ~ "Standard 3-3",
+  long_data$standard == "standard3_4" ~ "Standard 3-4",
+  long_data$standard == "standard3_5" ~ "Standard 3-5",
+  long_data$standard == "standard4_1" ~ "Standard 4-1",
+  long_data$standard == "standard4_2" ~ "Standard 4-2",
+  long_data$standard == "standard4_3" ~ "Standard 4-3",
+  long_data$standard == "standard5_1" ~ "Standard 5-1",
+  long_data$standard == "standard5_2" ~ "Standard 5-2",
+  long_data$standard == "standard5_3" ~ "Standard 5-3",
+  long_data$standard == "standard5_4" ~ "Standard 5-4",
+  long_data$standard == "standard5_5" ~ "Standard 5-5",
+  long_data$standard == "standard5_6" ~ "Standard 5-6",
+  long_data$standard == "standard6_1" ~ "Standard 6-1",
+  long_data$standard == "standard6_2" ~ "Standard 6-2",
+  long_data$standard == "standard6_3" ~ "Standard 6-3",
+  long_data$standard == "standard6_4" ~ "Standard 6-4",
+  long_data$standard == "standard6_5" ~ "Standard 6-5",
+  
+  TRUE ~ as.character(long_data$standard)
+)
+
+S1 <- long_data %>%
+  filter(grepl("^Standard 1-[1-5]$", standard))
+S2 <- long_data %>%
+  filter(grepl("^Standard 2-[1-5]$", standard))
+S3 <- long_data %>%
+  filter(grepl("^Standard 3-[1-5]$", standard))
+S4 <- long_data %>%
+  filter(grepl("^Standard 4-[1-3]$", standard))
+S5 <- long_data %>%
+  filter(grepl("^Standard 5-[1-6]$", standard))
+S6 <- long_data %>%
+  filter(grepl("^Standard 6-[1-5]$", standard))
+```
+
+#### Teacher Education Standard 1 
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph <- function(data) {
+  
+  color_font <- c("Beginning" = "black", "Developing" = "black", "Implementing" = "black", "Maintaining" = "black", "Transforming" = "white")
+  
+  summary  <- data %>%
+    group_by(standard, response) %>%
+    summarise(Count = n(), .groups = 'drop') %>%
+    group_by(standard) %>% 
+    mutate(Percentage = Count / sum(Count) * 100) %>% 
+    ungroup() 
+  
+  summary <- summary %>%
+    mutate(color_font = color_font[response])
+  
+  ggplot(summary, aes(x = standard, y = Percentage, fill = response)) +
+    geom_bar(stat = "identity", position = "fill") +
+    scale_y_continuous(labels = scales::percent) +
+    scale_fill_brewer(palette = "YlGnBu", breaks = c("Beginning", "Developing", "Implementing", "Maintaining", "Transforming")) +
+    labs(title = "",
+         x = "Standard",
+         y = "Percentage",
+         fill = "Response") +
+    theme_minimal(base_size = 11) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.line = element_line(color = "#3B3B3B", linewidth = 0.3),
+      axis.ticks = element_line(color = "#3B3B3B", linewidth = 0.3),
+      strip.text.x = element_text(size = 11, color = "#3B3B3B"), 
+      axis.text.x = element_text(size = 11, color = "#3B3B3B"),
+      axis.text.y = element_text(size = 11, color = "#3B3B3B"),
+      axis.title = element_text(size = 11, color = "#3B3B3B"),
+      legend.title = element_text(size = 11),
+      legend.text = element_text(size = 11)) +
+    geom_text(aes(label = sprintf("%.1f%%", Percentage), color = color_font),
+              position = position_fill(vjust = 0.5),
+              size = 4) +
+    scale_color_identity()
+}
+
+create_graph(S1)
+
+ggsave("results/standard1.png")
+```
+
+#### Teacher Education Standard 2 
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph(S2)
+
+ggsave("results/standard2.png")
+```
+
+#### Teacher Education Standard 3 
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph(S3)
+
+ggsave("results/standard3.png")
+```
+
+
+#### Teacher Education Standard 4 
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph(S4)
+
+ggsave("results/standard4.png")
+```
+
+#### Teacher Education Standard 5
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph(S5)
+
+ggsave("results/standard5.png")
+```
+
+#### Teacher Education Standard 6
+
+```{r, fig.width=8, fig.height=5, out.extra='class="responsive-figure"'}
+create_graph(S6)
+
+ggsave("results/standard6.png")
+```
+
+:::
