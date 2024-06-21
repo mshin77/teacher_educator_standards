@@ -56,7 +56,7 @@ demo_tbl_ft
 
 #### Calculate Cronbach's alpha
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE}
 #| code-fold: false
 calculate_alpha <- function(data, prefix) {
   category_cols <- grep(paste0("^", prefix), colnames(data), value = TRUE)
