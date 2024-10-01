@@ -21,7 +21,7 @@ format:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
-The website contains outputs and code used to analyze text data in Garcia et al. (in press). Reproducible materials are also posted at the [Center for Open Science](https://doi.org/10.17605/OSF.IO/23PDM).
+The website contains outputs and code used to analyze numeric, ordinal, and text data in Garcia et al. (in press). Reproducible materials are also posted at the [Center for Open Science](https://doi.org/10.17605/OSF.IO/23PDM).
 
 - Garcia, B., Shin, M., Clifton, A., Bingham, T., Coneway, B., & Hughes, C. (in press). Journey for crafting excellence: West Texas A&M University teacher educator standards development and implementation of standards for rural educators. *Texas Forum of Teacher Education*. 
 
