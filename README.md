@@ -1,1 +1,1 @@
-Garcia, B., Shin, M., Clifton, A., Bingham, T., Coneway, B., & Hughes, C. (in press). Journey for crafting excellence: West Texas A&M University teacher educator standards development and implementation of standards for rural educators. *Texas Forum of Teacher Education*.
+Garcia, B., Shin, M., Clifton, A., Bingham, T., Coneway, B., & Hughes, C. (2014). Journey for crafting excellence: West Texas A&M University teacher educator standards development and implementation of standards for rural educators. *Texas Forum of Teacher Education15,* 20-36.
