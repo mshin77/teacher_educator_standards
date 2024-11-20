@@ -5,6 +5,12 @@ format:
   html:
     code-fold: true
     code-tools: true
+    self-contained: false
+    fontawesome: true
+    navbar:
+      right:
+        - icon: github
+          href: https://github.com/mshin77/teacher_educator_standards
 ---
 
 ```{=html}
@@ -21,9 +27,9 @@ format:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
-The website contains outputs and code used to analyze numeric, ordinal, and text data in Garcia et al. (2014). Reproducible materials are also posted at the [Center for Open Science](https://doi.org/10.17605/OSF.IO/23PDM).
+The website contains outputs and code used to analyze numeric, ordinal, and text data in Garcia et al. (2014). Reproducible materials are also posted at the [Center for Open Science](https://doi.org/10.17605/OSF.IO/23PDM) and [Github](https://github.com/mshin77/teacher_educator_standards). 
 
-- Garcia, B., Shin, M., Clifton, A., Bingham, T., Coneway, B., & Hughes, C. (2014). Journey for crafting excellence: West Texas A&M University teacher educator standards development and implementation of standards for rural educators. *Texas Forum of Teacher Education, 15,* 20-36. 
+- Garcia, B., Shin, M., Clifton, A., Bingham, T., Coneway, B., & Hughes, C. (2014). Journey for crafting excellence: West Texas A&M University teacher educator standards development and implementation of standards for rural educators. *Texas Forum of Teacher Education, 15,* 20-36. [https://taote.wildapricot.org/Texas-Forum](https://taote.wildapricot.org/Texas-Forum)
 
 ::: panel-tabset
 ## Participants
